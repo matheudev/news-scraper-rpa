@@ -49,9 +49,6 @@ class NewsScraperBot:
         # Wait for the results to reload after sorting
         self.browser.wait_until_element_is_visible(results_page_selector)
 
-    def filter_by_category(self):
-        pass
-
     def extract_news_data(self):
         pass
 
@@ -70,8 +67,6 @@ class NewsScraperBot:
         try:
             self.start_browser(self.config['url'])
             self.search_news()
-            if self.news_category:
-                self.filter_by_category()
             data = self.extract_news_data()
             self.save_to_excel(data)
         finally:
