@@ -143,7 +143,7 @@ class NewsScraperBot:
         time.sleep(2)
 
         while True:
-            self.browser.wait_until_element_is_visible(articles_selector)
+            self.browser.wait_until_element_is_visible(articles_selector, timeout=15)
             articles = self.browser.find_elements(articles_selector)
 
             self.logger.info("Extracting data from %d articles", len(articles))
