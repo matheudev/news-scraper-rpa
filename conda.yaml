@@ -10,5 +10,4 @@ dependencies:
   - pip=24.0                      # https://pip.pypa.io/en/stable/news
   - pip:
     - rpaframework==28.6.2        # https://rpaframework.org/releasenotes.html
-    - openpyxl==3.1.2             # Excel handling library
-    - webdriver-manager==4.0.0    # Manages WebDriver binaries for Python
+    - webdriver-manager==4.0.2    # Manages WebDriver binaries for Python
