@@ -40,6 +40,11 @@ class NewsScraperBot:
         self.work_items.get_input_work_item()
         self.config = self.work_items.get_work_item_variables()
 
+        # If no configuration is provided via work items, load from config.json
+        if not self.config:
+            self.logger.info("No configuration found in work items. Loading from config file.")
+            self.config = load_config()
+
         self.browser = ExtendedSelenium()
         self.search_phrase = self.config['search_phrase']
         self.news_category = self.config.get('news_category', '').capitalize()
@@ -89,7 +94,7 @@ class NewsScraperBot:
         )
 
         time.sleep(2)
-        
+
         if self.browser.is_element_visible(see_all_button_selector):
             self.browser.click_element(see_all_button_selector)
             self.browser.wait_until_element_is_visible("//span[@class='see-less-text']", timeout=15)
