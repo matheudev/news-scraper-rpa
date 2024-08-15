@@ -141,8 +141,14 @@ class NewsScraperBot:
                     try:
                         title = article.find_element(By.XPATH, title_selector).text
                         date_text = article.find_element(By.XPATH, date_selector).text
-                        description = article.find_element(By.XPATH, description_selector).text
-                        image_url = article.find_element(By.XPATH, image_selector).get_attribute("src")
+                        try:
+                            description = article.find_element(By.XPATH, description_selector).text
+                        except Exception:
+                            description = "No description available"
+                        try:
+                            image_url = article.find_element(By.XPATH, image_selector).get_attribute("src")
+                        except Exception:
+                            image_url = None
 
                         # Check if the article's date is within the specified range
                         if not self.is_within_date_range(date_text):
