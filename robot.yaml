@@ -1,0 +1,15 @@
+tasks:
+  Extended-Selenium-Library:
+    robotTaskName: Using Extended Selenium Library
+  Python-Task:
+    shell: python main.py
+
+
+condaConfigFile: conda.yaml
+artifactsDir: output
+PATH:
+  - .
+PYTHONPATH:
+  - .
+ignoreFiles:
+  - .gitignore
