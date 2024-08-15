@@ -36,10 +36,9 @@ class NewsScraperBot:
         self.logger = logging.getLogger(__name__)
         logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
-        #self.work_items = WorkItems()
-        #self.work_items.get_input_work_item()
-        #self.config = self.work_items.get_work_item_variables()
-        self.config = None
+        self.work_items = WorkItems()
+        self.work_items.get_input_work_item()
+        self.config = self.work_items.get_work_item_variables()
 
         # If no configuration is provided via work items, load from config.json
         if not self.config:
