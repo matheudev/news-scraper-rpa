@@ -8,6 +8,7 @@ from datetime import datetime, timedelta
 import openpyxl
 from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver.common.by import By
+from RPA.Robocorp.WorkItems import WorkItems
 
 from extended_selenium import ExtendedSelenium
 
@@ -25,7 +26,7 @@ class NewsScraperBot:
         images_dir (str): Directory where downloaded images will be stored.
     """
 
-    def __init__(self, config):
+    def __init__(self):
         """
         Initializes the NewsScraperBot with the given configuration.
 
@@ -35,11 +36,15 @@ class NewsScraperBot:
         self.logger = logging.getLogger(__name__)
         logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
+        self.work_items = WorkItems()
+        self.work_items.get_input_work_item()
+        self.config = self.work_items.get_work_item_variables()
+
         self.browser = ExtendedSelenium()
         self.config = config
-        self.search_phrase = config['search_phrase']
-        self.news_category = config.get('news_category', '').capitalize()
-        self.months = config.get('months', 1)
+        self.search_phrase = self.config['search_phrase']
+        self.news_category = self.config.get('news_category', '').capitalize()
+        self.months = self.config.get('months', 1)
         self.output_file = os.path.join('output', 'news_data.xlsx')
         self.images_dir = os.path.join('output')
 
@@ -382,6 +387,5 @@ def load_config(config_file='config.json'):
 
 
 if __name__ == "__main__":
-    config = load_config()
-    bot = NewsScraperBot(config)
+    bot = NewsScraperBot()
     bot.run()
