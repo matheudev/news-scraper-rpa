@@ -93,11 +93,14 @@ class NewsScraperBot:
             "//button[contains(@class, 'see-all-button') and @data-toggle-trigger='see-all']"
         )
 
-        time.sleep(2)
+        try:
+            self.browser.wait_until_element_is_visible(see_all_button_selector, timeout=10)
 
-        if self.browser.is_element_visible(see_all_button_selector):
-            self.browser.click_element(see_all_button_selector)
-            self.browser.wait_until_element_is_visible("//span[@class='see-less-text']", timeout=15)
+            if self.browser.is_element_visible(see_all_button_selector):
+                self.browser.click_element(see_all_button_selector)
+                self.browser.wait_until_element_is_visible("//span[@class='see-less-text']", timeout=10)
+        except Exception as e:
+            self.logger.error("An error occurred while expanding topics filter: %s", e)
 
         # Filter by the specified news category
         if self.news_category:
@@ -153,7 +156,13 @@ class NewsScraperBot:
                 while retry_count < max_retries:
                     try:
                         title = article.find_element(By.XPATH, title_selector).text
-                        date_text = article.find_element(By.XPATH, date_selector).text
+                        try:
+                            date_text = article.find_element(By.XPATH, date_selector).text
+                        except Exception:
+                            date_text = None
+                        if not date_text:
+                            self.logger.warning("No date found for the article, skipping it.")
+                            break
                         try:
                             description = article.find_element(By.XPATH, description_selector).text
                         except Exception:
@@ -350,6 +359,9 @@ class NewsScraperBot:
         Args:
             data (list): The list of news data to save.
         """
+
+        os.makedirs(os.path.dirname(self.output_file), exist_ok=True)
+
         wb = openpyxl.Workbook()
         ws = wb.active
         ws.append(['Title', 'Date', 'Description', 'Image Filename',
