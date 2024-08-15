@@ -41,7 +41,6 @@ class NewsScraperBot:
         self.config = self.work_items.get_work_item_variables()
 
         self.browser = ExtendedSelenium()
-        self.config = config
         self.search_phrase = self.config['search_phrase']
         self.news_category = self.config.get('news_category', '').capitalize()
         self.months = self.config.get('months', 1)
