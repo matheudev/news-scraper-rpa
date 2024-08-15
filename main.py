@@ -52,6 +52,7 @@ class NewsScraperBot:
         """
         self.logger.info("Opening browser and navigating to '%s'", url)
         self.browser.open_site(url)
+        self.logger.info("URL loaded, starting interaction with the page.")
 
     def search_news(self):
         """

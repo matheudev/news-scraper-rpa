@@ -52,6 +52,7 @@ class ExtendedSelenium(Selenium):
         chrome_options.add_argument('--no-sandbox')
         chrome_options.add_argument('--disable-web-security')
         chrome_options.add_argument("--remote-debugging-port=9222")
+        chrome_options.add_argument("--disable-dev-shm-usage")
 
         # Create the WebDriver instance with the service object
         service = Service(self.driver_path)
