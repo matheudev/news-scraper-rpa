@@ -48,7 +48,8 @@ class ExtendedSelenium(Selenium):
         chrome_options.add_argument("--start-maximized")
         chrome_options.add_argument("--disable-gpu")
         chrome_options.add_argument("--disable-extensions")
-        
+        chrome_options.add_argument("--headless")
+
         # Create the WebDriver instance with the service object
         service = Service(self.driver_path)
         driver = webdriver.Chrome(service=service, options=chrome_options)
