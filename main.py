@@ -94,7 +94,8 @@ class NewsScraperBot:
         )
 
         try:
-            self.browser.wait_until_element_is_visible(see_all_button_selector, timeout=10)
+            # xpath of this search-results-module-filters-overlay div
+            self.browser.wait_until_element_is_visible("//div[@class='search-results-module-filters-overlay']", timeout=10)
 
             if self.browser.is_element_visible(see_all_button_selector):
                 self.browser.click_element(see_all_button_selector)
