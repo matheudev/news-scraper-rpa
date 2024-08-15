@@ -87,6 +87,9 @@ class NewsScraperBot:
         see_all_button_selector = (
             "//button[contains(@class, 'see-all-button') and @data-toggle-trigger='see-all']"
         )
+
+        time.sleep(2)
+        
         if self.browser.is_element_visible(see_all_button_selector):
             self.browser.click_element(see_all_button_selector)
             self.browser.wait_until_element_is_visible("//span[@class='see-less-text']", timeout=15)
