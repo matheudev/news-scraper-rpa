@@ -1,4 +1,5 @@
 from RPA.Browser.Selenium import Selenium
+from webdriver_manager.chrome import ChromeDriverManager
 import json
 import re
 import os
@@ -16,7 +17,10 @@ class NewsScraperBot:
         self.images_dir = os.path.join('output', 'images')
 
     def start_browser(self, url):
-        self.browser.open_available_browser(url)
+        chrome_driver_path = ChromeDriverManager().install()
+
+        # Pass the driver path and options to RPA.Browser.Selenium
+        self.browser.open_user_browser(url)
 
     def search_news(self):
         # Locate the search input field on the website
@@ -50,7 +54,58 @@ class NewsScraperBot:
         self.browser.wait_until_element_is_visible(results_page_selector)
 
     def extract_news_data(self):
-        pass
+        articles_selector = "ul.search-results-module-results-menu li"  # Selector for the list of articles
+        self.browser.wait_until_element_is_visible(articles_selector)
+        
+        articles = self.browser.find_elements(articles_selector)
+        news_data = []
+
+        for article in articles:
+            title_selector = ".promo-title a"
+            date_selector = "p.promo-timestamp"
+            description_selector = "p.promo-description"
+            image_selector = "picture img.image"
+
+            title = self.browser.get_text(f"{article} {title_selector}")
+            date = self.browser.get_text(f"{article} {date_selector}")
+            description = self.browser.get_text(f"{article} {description_selector}")
+            image_url = self.browser.get_element_attribute(f"{article} {image_selector}", "src")
+            
+            # Download the image
+            if image_url:
+                image_filename = self.download_image(image_url)
+            else:
+                image_filename = ""
+
+            # Count occurrences of the search phrase in title and description
+            count_search_phrases = self.count_occurrences(self.search_phrase, title, description)
+            
+            # Check if the title or description contains any amount of money
+            contains_money = self.contains_money(title, description)
+            
+            # Append the data to the list
+            news_data.append([title, date, description, image_filename, count_search_phrases, contains_money])
+        
+        return news_data
+
+    def download_image(self, url):
+        image_filename = os.path.join(self.images_dir, os.path.basename(url))
+        self.browser.download(url, image_filename)
+        return os.path.basename(image_filename)
+
+    def count_occurrences(self, phrase, *texts):
+        pattern = re.compile(re.escape(phrase), re.IGNORECASE)
+        return sum(len(pattern.findall(text)) for text in texts)
+
+    def contains_money(self, *texts):
+        money_patterns = [
+            r"\$\d+(\.\d{1,2})?",  # e.g., $10 or $10.99
+            r"\d+(,\d{3})*(\.\d{1,2})?\s*dollars",  # e.g., 1,000 dollars
+            r"\d+(,\d{3})*(\.\d{1,2})?\s*USD",  # e.g., 1,000 USD
+        ]
+        combined_pattern = re.compile("|".join(money_patterns), re.IGNORECASE)
+        return any(combined_pattern.search(text) for text in texts)
+
 
     def save_to_excel(self, data):
         wb = openpyxl.Workbook()
