@@ -93,6 +93,8 @@ class NewsScraperBot:
             "//button[contains(@class, 'see-all-button') and @data-toggle-trigger='see-all']"
         )
 
+        time.sleep(2)
+
         try:
             # xpath of this search-results-module-filters-overlay div
             self.browser.wait_until_element_is_visible("//div[@class='search-results-module-filters-overlay']", timeout=10)
