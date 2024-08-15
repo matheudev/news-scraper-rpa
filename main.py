@@ -41,7 +41,7 @@ class NewsScraperBot:
         self.news_category = config.get('news_category', '').capitalize()
         self.months = config.get('months', 1)
         self.output_file = os.path.join('output', 'news_data.xlsx')
-        self.images_dir = os.path.join('output', 'images')
+        self.images_dir = os.path.join('output')
 
     def start_browser(self, url):
         """
