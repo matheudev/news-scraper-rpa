@@ -49,6 +49,8 @@ class ExtendedSelenium(Selenium):
         chrome_options.add_argument("--disable-gpu")
         chrome_options.add_argument("--disable-extensions")
         chrome_options.add_argument("--headless")
+        chrome_options.add_argument('--no-sandbox')
+        chrome_options.add_argument('--disable-web-security')
 
         # Create the WebDriver instance with the service object
         service = Service(self.driver_path)
