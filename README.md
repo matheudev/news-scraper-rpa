@@ -1,13 +1,13 @@
-# Template: Robot Framework - Minimal
+# News Scraper Bot
 
-This is the simplest template to start from.
+## Overview
 
-- Get started from a simple task template in `tasks.robot`.
-  - Uses [Robot Framework](https://robocorp.com/docs-robot-framework/languages-and-frameworks/robot-framework/basics) syntax.
-- You can configure your robot `robot.yaml`.
-- You can configure dependencies in `conda.yaml`.
+The **News Scraper Bot** is an automated script that extracts news data from a specified website, filters the results by category, and saves the data to an Excel file. This project was created as part of a challenge with specific requirements, such as avoiding the use of web requests. To fulfill this requirement, the bot uses Selenium's screenshot functionality to download images from the website.
 
-## Learning materials
+## Features
 
-- [Robocorp Developer Training Courses](https://robocorp.com/docs/courses)
-- [Documentation links on Robot Framework](https://robocorp.com/docs/languages-and-frameworks/robot-framework)
+- **Automated News Search**: The bot performs searches on the news site using a specified phrase.
+- **Category Filtering**: It can filter news results by a specified category (e.g., Business, Politics).
+- **Date Range Filtering**: The bot checks the publication date of articles to ensure they fall within a specified date range.
+- **Image Download**: Using Selenium's screenshot functionality, the bot downloads images associated with the articles.
+- **Excel Output**: The extracted data is saved to an Excel file, including the article title, date, description, image filename, and additional information such as phrase occurrence count and money references.
